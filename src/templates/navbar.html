@@ -1,0 +1,159 @@
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #807070;"> 
+
+  <!-- Replace code below to change icon-->
+  <a class="navbar-brand" style="background-color: white; color: #807070; padding: 10px; border-radius: 10px;" href="/home">Web App</a>
+  <!-- Replace code above to change icon -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/home">Home</a>
+      </li>
+      <!--
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+      -->
+      
+      <li class="nav-item">
+        <a class="nav-link" href="/inventory">Inventory</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/restriction">Restrictions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/jargon">Jargon</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+      </li>
+
+
+    </ul>
+    <form id="frmsrch" method="POST" action="/search/">
+      <input name="frmId" value="srch" type="hidden">
+      {% csrf_token %}
+      <ul class="navbar-nav mr-auto">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user }}</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+            <input type="text" class="form-control mr-sm-2" name="txtsearch" id="txtsearch" type="text" placeholder="Search" aria-label="Search" autocomplete="off">
+          </li>
+          &nbsp
+          <li class="nav-item">
+            <input type="button" class="btn btn-outline-light my-2 my-sm-0" value="Search" onclick="search()">
+          </li>
+          &nbsp
+          <li class="nav-item">
+            <input type="button" class="btn btn-outline-light my-2 my-sm-0" value="Recommend" onclick="advance()">
+          </li>
+      </ul>
+    </form>
+      
+    <!--
+    <form class="form-inline my-2 my-lg-0" method="POST" action="/search" id="srch">
+      
+      <ul class="navbar-nav mr-auto">
+        @if (Auth::check())
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
+              
+              <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+          </li>
+        @else
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+        @endif
+          <li class="nav-item">
+            <input type="text" class="form-control mr-sm-2" name="txtsearch" id="txtsearch" type="text" placeholder="Search" aria-label="Search">
+          </li>
+          &nbsp
+          <li class="nav-item">
+            <input type="button" class="btn btn-outline-light my-2 my-sm-0" value="Search" onclick="search()">
+          </li>
+          &nbsp
+          <li class="nav-item">
+            <input type="button" class="btn btn-outline-light my-2 my-sm-0" value="Recommend" onclick="advance()">
+          </li>
+      </ul>
+    </form>
+    -->
+  </div>
+</nav>
+<br>
+<script type="text/javascript">
+
+  function search(){
+
+    var txt = document.getElementById('txtsearch').value;
+
+    if (txt == "" || txt == " "){
+      Swal.fire({
+          title: 'Invalid Input',
+          text: "Search Field must contain a value",
+          type: 'info',
+        });
+    }
+    else{
+      document.getElementById('frmsrch').submit();
+    }
+    
+
+  }
+
+
+  function advance(){
+
+    /*
+
+    Swal.fire({
+          title: '',
+          text: "Not Yet Available",
+          type: 'info',
+        });
+
+    */
+
+    {% if request.user.is_authenticated %}
+    
+      window.location.href = '/recommend/';
+
+    {% else %}
+
+      Swal.fire({
+          title: 'Login required',
+          text: "Login to visit the page",
+          type: 'info',
+        });
+
+    {% endif %}
+
+    
+
+  }
+
+
+</script>
+
+
+

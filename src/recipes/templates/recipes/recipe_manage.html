@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<form method="POST" action="">
+	{% csrf_token %}
+	<input type="submit" name="rating" class="btn btn-primary custom-btn" value="Rating">
+	<input type="submit" name="encode" class="btn btn-primary custom-btn" value="Encode">
+	<input type="submit" name="users" class="btn btn-primary custom-btn" value="Users">
+	<input type="submit" name="csv" class="btn btn-primary custom-btn" value="CSV">
+	<input type="submit" name="avg" class="btn btn-primary custom-btn" value="AVG">
+	<input type="submit" name="test" class="btn btn-primary custom-btn" value="TEST">
+	<input type="submit" name="matrix" class="btn btn-primary custom-btn" value="MATRIX">
+</form>
+
+{% endblock content %}

@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title>Web App</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/blog/">
+  
+
+
+  <!--carousel-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!--Star Icon CSS -->
+  <link href="/static/css/star.css" rel="stylesheet">
+
+  <!-- Add Star icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Override Bootstrap Color -->
+  <link href="/static/css/color.css" rel="stylesheet">
+
+
+
+    <style>
+
+      html { 
+        scroll-behavior: smooth;
+      }
+      
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      /* Make Carousel image fully responsive */
+      .carousel-inner  {
+          width: 100%;
+          height: 250px;
+      }
+      .images {
+          position: relative;
+          top: -700px; 
+      }
+
+      .images2 {
+          position: relative;
+          top: -50px; 
+      }
+
+      .images3 {
+          position: relative;
+          top: -400px; 
+      }
+      
+      /*background */
+      .bd {
+        background-image: linear-gradient(to bottom, #ffffff 0%, #FF9595 100%);
+
+      }
+
+      /*primary button*/
+      .btn-primary.custom-btn {
+          background-color: #804A4A;
+          border-color: #000;
+      }
+
+      .btn-primary.custom-btn:focus {
+          background-color: white;
+          border-color: #804A4A;
+          color: #804A4A;
+      }
+
+      /*danger button*/
+      .btn-danger.custom-btn {
+          background-color: #804A4A;
+          color: white;
+          border-color: #000;
+      }
+
+      .btn-danger.custom-btn:focus,
+      .btn-danger.custom-btn:hover{
+          background-color: white;
+          border-color: #804A4A;
+          color: #804A4A;
+      }
+
+      /*update button*/
+      .btn-outline-danger.custom-btn{
+        background-color: white;
+        border-color: #cc7676;
+        color: #cc7676; 
+      }
+
+      .btn-outline-danger.custom-btn:hover{
+        background-color: #CC7676;
+        border-color: white;
+        color: white; 
+      }
+
+      /*btn-link like Reply*/
+      .btn-link{
+        color: #FF9595;
+        margin: 0;
+        padding: 0;
+      }
+
+      .btn-link:hover{
+        color: #cc7676;
+      }
+
+
+      /*Pagination*/
+      .pagination > li > a,
+      .pagination > li > span {
+        color: #FF9595; 
+        background-color: white;
+      }
+
+      .pagination > .page-item > a:hover,
+      .pagination > .page-item > span:hover,
+      .pagination > .page-item.active > a,
+      .pagination > .page-item.active > a:focus,
+      .pagination > .page-item.active > a:hover,
+      .pagination > .page-item.active > span,
+      .pagination > .page-item.active > span:focus,
+      .pagination > .page-item.active > span:hover {
+        background-color: #FF9595;
+        border-color: #FF9595;
+        color: white;
+      }
+
+      .pagination > .page-item > a:focus{
+        border-color: #FF9595;
+        box-shadow: 0 0 0 0.2rem rgba(255, 149, 149, 0.25);
+      }
+
+      /*<a>links color*/
+      .blog-sidebar a,
+      .blog-footer a,
+      .blog-main a{
+        color: #ff9595; 
+      }
+
+      .blog-sidebar a,
+      .blog-footer a,
+      .blog-main a:hover{
+        color: #804A4A;
+      }
+
+
+
+      /*Nav scroller Icons and name */
+      .cl {
+        
+        height: 40px;
+        width: 40px;
+        right: -10px;
+      }
+
+      .cl2 {
+        
+        height: 40px;
+        width: 40px;
+        right: -10px;
+      }
+
+      .cl3 {
+        
+        height: 40px;
+        width: 40px;
+        right: 0px;
+      }
+
+      .cl4 {
+        
+        height: 40px;
+        width: 80px;
+        right: 20px;
+      }
+
+      .cl5 {
+       
+        height: 40px;
+        width: 40px;
+        right: 30px;
+      }
+
+      .cl6 {
+        
+        height: 40px;
+        width: 40px;
+        right: 20px;
+      }
+
+      .cl7 {
+        
+        height: 40px;
+        width: 40px;
+        right: 10px;  
+      }
+
+      .cl8 {
+        
+        height: 40px;
+        width: 40px;
+        right: 3px;
+      }
+
+      .cl9 {
+        
+        height: 40px;
+        width: 40px;
+        right: 0px;
+      }
+
+      .cat{
+        padding-bottom: 1%;
+      }
+
+      .cat a{
+        color: #804A4A;
+      }
+
+      /*sidebar try something new*/
+      .sideimage{
+      position: relative;
+        max-width: 100%;
+        height: auto;
+        right: 0px;
+      }
+
+      /*form-control*/
+      .form-control:focus,
+      .form-control >.btn >.cu a:active{
+        border-color: #FF9595;
+        box-shadow: 0 0 0 0.2rem rgba(255, 149, 149, 0.25);
+      }
+
+
+      /*Highlighting text via mouse*/
+      ::selection {
+        color: black;
+        background: #FF9595;
+      }
+
+      /* Make the carousel image fully responsive */
+      .carousel-inner img {
+        object-fit: cover;
+        width: 100%;
+        height: auto;
+      }
+
+      
+      
+
+
+    </style>
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/blog.css/" rel="stylesheet">
+  
+  </head>
+
+
+  <body>
+    {% include "navbar.html" %}
+
+    {% block carousel %}
+            
+    {% endblock %}
+     
+    
+    <div class="bd">
+      <br>
+      <div class="container-fluid">
+      <br>
+      <div class="table-responsive cat">
+        <table class="table table-condensed table-borderless" style="text-align: center;">
+          <tr align="center">
+            <td>
+              <div>
+                <a class="p-2" href="/beef"><img class="cl3" src="/static/images/beef.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/beef">Beef</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/dessert"><img class="cl6" src="/static/images/dessert.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/dessert">Dessert</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/fish"><img class="cl4" src="/static/images/fish.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/fish">Fish</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/noodle"><img class="cl7" src="/static/images/pasta.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/noodle">Noodle</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/pork"><img class="cl2" src="/static/images/pork.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/pork">Pork</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/poultry"><img class="cl" src="/static/images/chicken.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/poultry">Poultry</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/rice"><img class="cl9" src="/static/images/rice.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/rice">Rice</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/seafood"><img class="cl8" src="/static/images/seafood.png"></a>
+              </div>
+              <div>
+                <a class="p-2" href="/seafood">Seafood</a>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a class="p-2" href="/vegetable"><img class="cl5" src="/static/images/vegetable.png"></a>
+              </div>
+               <div>
+                 <a class="p-2" href="/vegetable">Vegetable</a>
+               </div>
+            </td>
+          </tr>
+        </table>
+      </div><!--table-responsive cat-->
+        
+      
+      <!-- Carousel Recommendation -->
+      {% include "colcarousel.html" %}
+
+
+    </div><!-- container-fluid-->
+    
+
+  
+
+    <div class="container" style="background-color: white; padding-top: 2%;">
+      <div class="row">
+        <div class="col-md-8 blog-main">
+          
+          
+          
+          {% block content %}
+            
+          {% endblock %}
+          
+          
+        </div><!-- /.blog-main -->
+
+
+        <div class="col-md-4 blog-sidebar" style="background-color: white;">
+
+          {% include "sidebar.html" %}
+          
+          
+        </div><!--/.blogs-sidebar-->
+
+      </div><!-- /.row -->
+      <br>
+    </div><!-- /.container -->
+
+    {% include "footer.html" %}
+
+  </div>
+  
+  <!--  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  -->
+  
+  <!--SweetAlert2-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="sweetalert2.all.min.js"></script>
+  <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+  <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <!--
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+-->
+
+
+
+</body>
+</html>

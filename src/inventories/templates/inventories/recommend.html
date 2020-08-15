@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>Recommend</h1>
+	<h5><i style="color: #804A4A;">Select the Ingredients you want to cook</i></h5>
+	<div class="table-responsive">
+
+		<table class="table">
+
+			<thead style="background: #804A4A; color: white;">
+
+				<tr>
+
+					<th style="vertical-align:middle; align:center;">Ingredient</th>
+
+				</tr>
+
+			</thead>
+			<form method="POST" action="/recommend/list/">
+
+				{% csrf_token %}
+
+				{% for inv in inventories %}
+
+					<tr>
+						<td>
+							<input type="checkbox" id="c{{ inv.id }}" name="ingrc" value="{{ inv.id }}">
+							<label for="c{{ inv.id }}">{{ inv.ingr }}</label>
+						</td>
+					</tr>
+
+				{% endfor %}
+
+				<tr>
+					<td>
+						<center>
+							<!--
+							<button class="btn btn-lg btn-danger custom-btn btn-block" type="button" id="recommend">
+								<span>Recommend</span>
+							</button>
+							-->
+
+							<input type="submit" name="recommend" id="recommend" class="btn btn-lg btn-danger custom-btn btn-block" value="Recommend">
+						</center>
+					</td>
+				</tr>
+
+			</form>
+
+		</table>
+
+	</div>
+
+{% endblock content %}

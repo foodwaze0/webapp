@@ -1,0 +1,403 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Restrictions</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/floating-labels/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+      <!-- Add Star icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="sweetalert2.min.css">
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .btn-block{
+        background-color: #804A4A;
+        border-color: #000;
+      }
+
+      .btn-block:hover{
+        background-color: white;
+        border-color: #804A4A;
+        color: #804A4A;
+      }
+
+      .btn-block:active{
+        background-color: white;
+        border-color: #804A4A;
+        color: #804A4A;
+      }
+
+      /*danger button*/
+      .btn-danger.custom-btn {
+          background-color: #804A4A;
+          border-color: #000;
+      }
+
+      .btn-danger.custom-btn:focus {
+          background-color: white;
+          border-color: #804A4A;
+          color: #804A4A;
+      }
+
+      /*exclude button toggle*/
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:active + .slider {
+        background-color: #FF9595;
+      }
+
+      .slider.active{
+        background-color: #FF9595;
+        transform: rotateY(180deg);
+      }
+
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:active + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      .slider.active + .slider:before{
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      } 
+
+      /*Pagination*/
+      .pagination > li > a,
+      .pagination > li > span {
+        color: #FF9595; 
+        background-color: white;
+      }
+
+      .pagination > .page-item > a:hover,
+      .pagination > .page-item > span:hover,
+      .pagination > .page-item.active > a,
+      .pagination > .page-item.active > a:focus,
+      .pagination > .page-item.active > a:hover,
+      .pagination > .page-item.active > span,
+      .pagination > .page-item.active > span:focus,
+      .pagination > .page-item.active > span:hover {
+        background-color: #FF9595;
+        border-color: #FF9595;
+        color: white;
+      }
+
+      .pagination > .page-item > a:focus{
+        border-color: #FF9595;
+        box-shadow: 0 0 0 0.2rem rgba(255, 149, 149, 0.25);
+      }
+
+      /*primary button*/
+      .btn-primary.custom-btn {
+          background-color: #804A4A;
+          border-color: #000;
+      }
+
+      .btn-primary.custom-btn:focus {
+          background-color: white;
+          border-color: #804A4A;
+          color: #804A4A;
+      }
+
+      /*btn-link like Reply*/
+      .btn-link{
+        color: #FF9595;
+        margin: 0;
+        padding: 0;
+      }
+
+      .btn-link:hover{
+        color: #cc7676;
+      }
+
+      /*form-control*/
+      .form-control:focus,
+      .form-control >.btn >.cu a:active{
+        border-color: #FF9595;
+        box-shadow: 0 0 0 0.2rem rgba(255, 149, 149, 0.25);
+      }
+
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/static/css/labels.css" rel="stylesheet">
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="form-signin"  style="background-color: white; padding-top: 5%; padding-bottom: 5%">
+      <center>
+        <h1>Restrictions</h1></center>
+      </center>
+      <hr>
+      <div class="table-responsive-sm">
+        <h5><b>Restricted Ingredients</b></h5>
+        {% include "messages.html" %}
+        <form method="POST" action="" class="row">
+          {% csrf_token %}
+          <div class="col-md-6">
+            <input type="submit" name="restrict" value="Restrict All" class="btn btn-link custom-btn">
+          </div>
+          <div class="col-md-6">
+           <input type="submit" name="disable" value="Disable All Restrictions" class="btn btn-link custom-btn">
+          </div>
+        </form>
+        
+        <br>
+        <table class="table table-bordered">
+          <tr class="table thead-dark" align="center">
+            <thead style="background: #804A4A; color: white;">
+              <th>Ingredient</th>
+              <th>Actions</th>
+            </thead>
+            
+          </tr>
+          {% for ingr in restrictions.object_list %}
+          <tr align="center">
+            <td>{{ ingr.ingr }}</td>
+            <td>
+              <form method="POST" action="/restriction/update/" id="frm{{ ingr.id }}">
+                <input type="hidden" name="id" value="{{ ingr.id }}">
+                {% csrf_token %}
+                {% if ingr.check == True  %}
+                
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="u{{ ingr.id }}" name="update"  checked="True" onclick="delay(this.id)">
+                    <label class="custom-control-label" for="u{{ ingr.id }}">Restricted</label>
+                  </div>
+                {% else %}
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="u{{ ingr.id }}" name="update" onclick="delay(this.id)">
+                    <label class="custom-control-label" for="u{{ ingr.id }}">Restricted</label>
+                  </div>
+                
+                {% endif %}
+              </form>
+              <form method="POST" action="/restriction/remove/" id="rem{{ ingr.id }}">
+                {% csrf_token %}
+                  <input type="hidden" name="id" value="{{ ingr.id }}">
+                  <button class="btn btn-danger" type="button" id="r{{ ingr.id }}" name="remove" onclick="remove(this.id)">
+                    <i class="fa fa-trash-o fa-xs" aria-hidden="true"></i>
+                  </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+          
+        </table>
+
+        <br>
+        
+        <ul class="pagination">
+          {% if restrictions.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ restrictions.previous_page_number }}"><i class="fa fa-angle-left"></i></a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="#"><i class="fa fa-angle-left"></i></a>
+            </li>
+          {% endif %}
+          {% for num in restrictions.paginator.page_range %}
+            {% if restrictions.number == num %}
+              <li class="page-item active">
+                <a href="?page={{ num }}" class="page-link" >{{ num }}</a>
+              </li>
+            {% elif num > restrictions.number|add:'-3' and num < restrictions.number|add:'3' %}
+              <li class="page-item">
+                <a href="?page={{ num }}" class="page-link" >{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+          {% if restrictions.has_next %}
+            <li class="page-item">
+              <a href="?page={{ restrictions.next_page_number }}" class="page-link" ><i class="fa fa-angle-right"></i></a>
+            </li>
+            <li class="page-item">
+              <a href="?page={{ restrictions.paginator.num_pages }}" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a href="#" class="page-link" ><i class="fa fa-angle-right"></i></a>
+            </li>
+            <li class="page-item disabled">
+              <a href="?page={{ restrictions.paginator.num_pages }}" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+            </li>
+          {% endif %}
+        </ul>
+        
+        <br>
+        <button class="btn btn-danger custom-btn" type="button" onclick="showForm()">Add Restricted Ingredient</button>
+        <br>
+        <div id="exform" style="display: none;">
+          <br>
+          <form method="POST" action="">
+            
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="ingredient">Restrict Ingredient</label>
+              {{ rform.ingr }}
+            </div>
+            <div class="form-group">
+              <button class="btn btn-danger custom-btn" name="create" type="submit">Add to Restricted Ingredients</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    
+    <script type="text/javascript">
+
+      function showForm(){
+        var frm = document.getElementById('exform');
+        if(frm.style.display === 'none'){
+          frm.style.display = "block";
+          frm.scrollIntoView();
+          document.getElementById("ingredient").focus();
+        }
+        else{
+          frm.style.display = "none"
+        }
+
+      }
+
+      function remove(bid){
+
+        var temp = bid;
+        var patt = new RegExp(/\d+/);
+        var id = patt.exec(temp);
+        var frm = 'rem'+id;
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, remove it!'
+        }).then((result) => {
+            if (result.value) {
+              document.getElementById(frm).submit();
+
+            }
+        })
+
+
+
+    }
+
+    function update(bid){
+
+      var frm = 'frm'+bid;
+
+      document.getElementById(frm).submit();
+
+    }
+
+    function delay(bid){
+
+      var temp = bid;
+      var patt = new RegExp(/\d+/);
+      var id = patt.exec(temp);
+
+      setTimeout("update("+id+")", 500);
+
+    }
+
+
+
+    </script>
+      <!--SweetAler                            t2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="sweetalert2.all.min.js"></script>
+      <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="sweetalert2.min.js"></script>
+
+</body>
+</html>

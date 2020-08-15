@@ -1,0 +1,143 @@
+
+/*------------------------------------
+- COLOR Dark Pink
+------------------------------------*/
+.alert-Dark Pink {
+    color: #462222;
+    background-color: #e5c9c9;
+    border-color: #debcbc;
+}
+
+.alert-Dark Pink hr {
+    border-top-color: #d6aaaa;
+}
+
+.alert-Dark Pink .alert-link {
+    color: #241111;
+}
+
+.badge-Dark Pink {
+    color: #fff;
+    background-color: #994A4A;
+}
+
+.badge-Dark Pink[href]:hover, .badge-Dark Pink[href]:focus {
+    color: #fff;
+    background-color: #763939;
+}
+
+.bg-Dark Pink {
+    background-color: #994A4A !important;
+}
+
+a.bg-Dark Pink:hover, a.bg-Dark Pink:focus,
+button.bg-Dark Pink:hover,
+button.bg-Dark Pink:focus {
+    background-color: #763939 !important;
+}
+
+.border-Dark Pink {
+    border-color: #994A4A !important;
+}
+
+.btn-Dark Pink {
+    color: #fff;
+    background-color: #994A4A;
+    border-color: #994A4A;
+}
+
+.btn-Dark Pink:hover {
+    color: #fff;
+    background-color: #803e3e;
+    border-color: #763939;
+}
+
+.btn-Dark Pink:focus, .btn-Dark Pink.focus {
+    box-shadow: 0 0 0 0.2rem rgba(153, 74, 74, 0.5);
+}
+
+.btn-Dark Pink.disabled, .btn-Dark Pink:disabled {
+    color: #fff;
+    background-color: #994A4A;
+    border-color: #994A4A;
+}
+
+.btn-Dark Pink:not(:disabled):not(.disabled):active, .btn-Dark Pink:not(:disabled):not(.disabled).active, .show > .btn-Dark Pink.dropdown-toggle {
+    color: #fff;
+    background-color: #763939;
+    border-color: #6c3434;
+}
+
+.btn-Dark Pink:not(:disabled):not(.disabled):active:focus, .btn-Dark Pink:not(:disabled):not(.disabled).active:focus, .show > .btn-Dark Pink.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(153, 74, 74, 0.5);
+}
+
+.btn-outline-Dark Pink {
+    color: #994A4A;
+    background-color: transparent;
+    border-color: #994A4A;
+}
+
+.btn-outline-Dark Pink:hover {
+    color: #fff;
+    background-color: #994A4A;
+    border-color: #994A4A;
+}
+
+.btn-outline-Dark Pink:focus, .btn-outline-Dark Pink.focus {
+    box-shadow: 0 0 0 0.2rem rgba(153, 74, 74, 0.5);
+}
+
+.btn-outline-Dark Pink.disabled, .btn-outline-Dark Pink:disabled {
+    color: #994A4A;
+    background-color: transparent;
+}
+
+.btn-outline-Dark Pink:not(:disabled):not(.disabled):active, .btn-outline-Dark Pink:not(:disabled):not(.disabled).active, .show > .btn-outline-Dark Pink.dropdown-toggle {
+    color: #fff;
+    background-color: #994A4A;
+    border-color: #994A4A;
+}
+
+.btn-outline-Dark Pink:not(:disabled):not(.disabled):active:focus, .btn-outline-Dark Pink:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-Dark Pink.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(153, 74, 74, 0.5);
+}
+
+.list-group-item-Dark Pink {
+    color: #462222;
+    background-color: #debcbc;
+}
+
+.list-group-item-Dark Pink.list-group-item-action:hover, .list-group-item-Dark Pink.list-group-item-action:focus {
+    color: #462222;
+    background-color: #d6aaaa;
+}
+
+.list-group-item-Dark Pink.list-group-item-action.active {
+    color: #fff;
+    background-color: #462222;
+    border-color: #462222;
+}
+
+.table-Dark Pink,
+.table-Dark Pink > th,
+.table-Dark Pink > td {
+    background-color: #debcbc;
+}
+
+.table-hover .table-Dark Pink:hover {
+    background-color: #d6aaaa;
+}
+
+.table-hover .table-Dark Pink:hover > td,
+.table-hover .table-Dark Pink:hover > th {
+    background-color: #d6aaaa;
+}
+
+.text-Dark Pink {
+    color: #994A4A !important;
+}
+
+a.text-Dark Pink:hover, a.text-Dark Pink:focus {
+    color: #763939 !important;
+}

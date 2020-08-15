@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load custom_filter_tags %}
+
+{% block content %}
+	<br>
+	<div class="table-responsive">
+			{% if inventories %}
+				<table class="table">
+					<thead style="background: #804A4A; color: white;">
+						<tr>
+							<th style="vertical-align:middle; align:center;">
+								<a href="/inventory/create/" class="btn btn-outline-danger btn-sm custom-btn">
+									<i class="fa fa-plus" aria-hidden="true"></i>&nbspAdd
+								</a>
+							&nbspIngredients
+							</th>
+						    <th style="vertical-align:middle; align:center;">Quantity</th>
+						    <th style="vertical-align:middle; align:center;">Units</th>
+						    <th style="vertical-align:middle; align:center;">Actions</th>
+						</tr>
+					</thead>
+					{% for inventory in inventories.object_list %}
+						<tr>
+							<td>
+								{{ inventory.ingr }}
+							</td>
+							<td>{{ inventory.qty }}</td>
+							<td>{{ inventory.unit|nunit }}</td>
+							<td>
+								<form method="POST" action="" id="frm{{ inventory.id }}">
+									{% csrf_token %}
+									<input type="hidden" name="id" value="{{ inventory.id }}">
+									<a class="btn btn-link" href="{{ inventory.get_absolute_url }}" target="_blank">
+										<i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+									</a>
+									<button class="btn btn-danger" type="button" id="{{ inventory.id }}" onclick="remove(this.id)">
+										<i class="fa fa-trash-o" aria-hidden="true"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+				<ul class="pagination">
+					{% if inventories.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="?page={{ inventories.previous_page_number }}"><i class="fa fa-angle-left"></i></a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#"><i class="fa fa-angle-left"></i></a>
+						</li>
+					{% endif %}
+					{% for num in inventories.paginator.page_range %}
+						{% if inventories.number == num %}
+							<li class="page-item active">
+								<a href="?page={{ num }}" class="page-link" >{{ num }}</a>
+							</li>
+						{% elif num > inventories.number|add:'-3' and num < inventories.number|add:'3' %}
+							<li class="page-item">
+								<a href="?page={{ num }}" class="page-link" >{{ num }}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+					{% if inventories.has_next %}
+						<li class="page-item">
+							<a href="?page={{ inventories.next_page_number }}" class="page-link" ><i class="fa fa-angle-right"></i></a>
+						</li>
+						<li class="page-item">
+							<a href="?page={{ inventories.paginator.num_pages }}" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a href="#" class="page-link" ><i class="fa fa-angle-right"></i></a>
+						</li>
+						<li class="page-item disabled">
+							<a href="?page={{ inventories.paginator.num_pages }}" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+						</li>
+					{% endif %}
+				</ul>
+			{% else %}
+				<div>
+					<h1>No Ingredients Added Yet</h1>
+				</div>
+			{% endif %}
+	</div>
+
+	<script>
+
+		function remove(bid){
+
+			var frm = 'frm'+bid;
+
+			Swal.fire({
+				title: 'Remove Ingredient?',
+				text: "You won't be able to revert this!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, remove it!'
+			}).then((result) => {
+					if (result.value) {
+						document.getElementById(frm).submit();
+					}
+			})
+
+
+
+		}
+
+	</script>
+
+{% endblock content %}

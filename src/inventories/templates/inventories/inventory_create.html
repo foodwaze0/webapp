@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<br>
+	<h1>Add Ingredient</h1>
+	{% if form.errors %}
+      {% for field in form %}
+          {% for error in field.errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+          </div>
+      {% endfor %}
+    {% endif %}
+	<form action="." method="POST" id="frminv">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="ingredient">Ingredient</label>
+			{{ form.ingr }}
+			<datalist id="ingrList">
+		    	{% for i in ingrl %}
+		    		<option value="{{ i }}">
+		    	{% endfor %}
+		    </datalist>
+		</div>
+		<div class="form-group">
+			<label for="quantity">Quantity</label>
+			{{ form.qty }}
+		</div>
+		<div class="form-group">
+			<label for="unit">Unit</label>
+			{{ form.unit }}
+		</div>
+		<div class="form-group">
+			<input class="btn btn-danger custom-btn" type="button" value="Add to Inventory" onclick="valid()" />
+		</div>
+	</form>
+
+
+	<script>
+
+		function checkdatalist(idDataList, inputValue) {
+
+			var option = document.querySelector("#" + idDataList + " option[value='" + inputValue + "' i]");
+			if (option != null) {
+				return option.value.length > 0;
+			}
+			return false;
+
+		}
+
+
+		function valid() {
+
+			if (checkdatalist('ingrList', document.getElementById('id_ingr').value)){
+
+				document.getElementById('frminv').submit();
+
+			}
+			else{
+
+				Swal.fire({
+				  title: 'Ingredient not used in any Recipe',
+				  text: "Do you still want to add this Ingredient?",
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Yes, Add Ingredient'
+				}).then((result) => {
+				    if (result.value) {
+				      document.getElementById('frminv').submit();
+				    }
+				})
+
+			}
+
+
+		}
+
+	</script>
+{% endblock content %}

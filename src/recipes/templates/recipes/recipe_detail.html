@@ -1,0 +1,1282 @@
+{% extends 'base.html' %}
+{% load custom_filter_tags %}
+
+{% block content %}
+	<div class="container">
+		<br>
+		<div class="table-responsive">
+			<table class="table table-bordered">
+
+				<tr>
+					<td colspan="2" align="center">
+						<img src="{{ recipe.Thumbnail }}" class="img-responsive"/>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="2" align="center">
+						<h4>{{ recipe.Recipe }}</h4>
+					</td>
+				</tr>
+				<tr>
+					<form id="frmcook" method="POST" action="" class="form">
+						<input type="hidden" name="frmId" value="cook">
+						{% csrf_token %}
+						<td colspan="2" align="center">
+							<h5>Servings</h5>
+							<i id="peeps">{{ serv }}</i> Person(s)
+							<br>
+							<input type="number" name="snum" id="snum" min="1" max="200" value="{{ serv }}">&nbsp
+							<input type="button" class="btn btn-danger custom-btn" value="Calculate" onclick="calserv()">
+							<input type="button" name="cook" class="btn btn-danger custom-btn" value="Cook" onclick="cooks()">
+						</td>
+					</form>
+				</tr>
+				<tr>
+					<td>
+						<h5>Ingredient</h5>
+						<p>
+							<ul style="list-style-type:square;" id="ulingr">
+								{% for ing in ingr %}
+									{% cjargon ins as cingr %}
+									{% if cingr == True %}
+										{% words1 ins as 1sti %}
+										{% jargon ins as jari %}
+										{% words2 ins as 2ndi %}
+										{% jar_url ins as ingrjar %}
+										<li>{{ 1sti }}<a href="/jargon/#{{ ingrjar }}" target="_blank">{{ jari }}</a>{{ 2ndi }}</li>
+									{% else %}
+										<li>{{ ing }}</li>	
+									{% endif %}
+								{% endfor %}
+							</ul>
+						</p>
+					</td>
+					<td>
+						<h5>Instructions</h5>
+						<p>
+							<ol id="olins">
+								{% for ins in inst %}
+									{% cjargon ins as cins %}
+									{% if cins == True %}
+										{% words1 ins as 1st %}
+										{% jargon ins as jar %}
+										{% words2 ins as 2nd %}
+										{% jar_url ins as insjar %}
+										<li>{{ 1st }}<a href="/jargon/#{{ insjar }}" target="_blank">{{ jar }}</a>{{ 2nd }}</li>
+									{% else %}
+										<li>{{ ins }}</li>	
+									{% endif %}
+								{% endfor %}
+							</ol>
+						</p>
+					</td>
+				</tr>
+
+			</table>
+		</div> <!-- Responsive table-->
+
+		<div class="form">
+			<div class="form-group">
+				<input type="button" name="us" value="US Customary" onclick="us()" class="btn btn-danger custom-btn">
+				<input type="button" name="metric" value="Metric" onclick="metric()" class="btn btn-danger custom-btn" id="myreview">
+			</div>
+		</div>
+		<br>
+		{% if messages %}
+		<div class="alert alert-danger">
+			<ul class="messages">
+			    {% for message in messages %}
+			    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+			        	<strong>{{ message }}</strong>
+			        {% else %}
+			        	{{ message }}
+			        {% endif %}
+			    </li>
+			    {% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+
+		<form id="frmrate" method="POST" action="" class="form">
+
+			<input type="hidden" name="link" id="link" value="{{ recipe.id }}">
+			<input type="hidden" name="person" id="person" value="{{ serv }}">
+			<input type="hidden" name="frmId" value="rate">
+
+			{% csrf_token %}
+
+			{% include "errors.html" %}
+
+			<div class="form-group">
+			<span class="heading">My Review</span>
+			</div>
+
+			{% if request.user.is_authenticated %}
+
+				{% creview request.user.id recipe.id  as checkr %}
+
+				{% if checkr == True %}
+
+					{% mreview request.user.id recipe.id  as myr %}
+
+					<div class="form-group">
+						{% for i in myr.rating|times %}
+							<span class="fa fa-star checked"></span>
+						{% endfor %}
+						{% minus '5' myr.rating as nstar %}
+						{% for i in nstar|times %}
+							<span class="fa fa-star"></span>
+						{% endfor %}
+						&nbsp<span style="color: #A9A9A9;">{{ myr.posted_at|date:"M d, Y h:i A" }}</span>
+					</div>
+					<div class="form-group">
+						<p><b><i style="color: #cc7676;">{{ myr.review }}</i></b></p>
+					</div>
+
+
+				{% else %}
+
+					<div class="rating form-group">
+						<input type="radio" name="star" id="star5" value="5" ><label for="star5"></label>
+						<input type="radio" name="star" id="star4" value="4" ><label for="star4"></label>
+						<input type="radio" name="star" id="star3" value="3" ><label for="star3"></label>
+						<input type="radio" name="star" id="star2" value="2" ><label for="star2"></label>
+						<input type="radio" name="star" id="star1" value="1" ><label for="star1"></label>
+					</div>
+					<br>
+					<div class="form-group">
+						{{ rform.review}}
+					</div>
+					<div class="form-group">
+						<input type="button" name="rates" value="Rate" class="btn btn-danger custom-btn" onclick="ratings()">
+					</div>
+
+				{% endif %}
+
+
+			{% else %}
+			<div class="rating form-group">
+				<input type="radio" name="star" id="star5" value="5" ><label for="star5"></label>
+				<input type="radio" name="star" id="star4" value="4" ><label for="star4"></label>
+				<input type="radio" name="star" id="star3" value="3" ><label for="star3"></label>
+				<input type="radio" name="star" id="star2" value="2" ><label for="star2"></label>
+				<input type="radio" name="star" id="star1" value="1" ><label for="star1"></label>
+			</div>
+			<br>
+			<div class="form-group">
+				{{ rform.review}}
+			</div>
+			<div class="form-group">
+				<input type="button" name="rates" value="Rate" class="btn btn-danger custom-btn" onclick="ratings()">
+			</div>
+			{% endif %}
+			
+			{# <a href="/inventory/index" target="popup" onclick="window.open('/inventory/index','popup','width=600,height=600'); return false;">Click Here to Edit Inventory</a> #}
+		</form>
+
+	</div>
+	<br>
+	<h3>Reviews</h3>
+	<hr>
+		<p>{{ avg }} average based on {{ crating }} reviews.</p>
+		<hr style="border:3px solid #f1f1f1">
+
+		<div class="row" style="padding-left: 5%; padding-right: 5%;">
+		  <div class="side">
+			<div>5 star</div>
+		  </div>
+		  <div class="middle">
+			<div class="bar-container">
+			  <div style="width: {% percent star5 crating %}%; height: 18px; background-color: #4CAF50;"></div>
+			</div>
+		  </div>
+		  <div class="side right">
+			<div>{{ star5 }}</div>
+		  </div>
+		  <div class="side">
+			<div>4 star</div>
+		  </div>
+		  <div class="middle">
+			<div class="bar-container">
+			  <div style="width: {% percent star4 crating %}%; height: 18px; background-color: #2196F3;"></div>
+			</div>
+		  </div>
+		  <div class="side right">
+			<div>{{ star4 }}</div>
+		  </div>
+		  <div class="side">
+			<div>3 star</div>
+		  </div>
+		  <div class="middle">
+			<div class="bar-container">
+			  <div style="width: {% percent star3 crating %}%; height: 18px; background-color: #00bcd4;"></div>
+			</div>
+		  </div>
+		  <div class="side right">
+			<div>{{ star3 }}</div>
+		  </div>
+		  <div class="side">
+			<div>2 star</div>
+		  </div>
+		  <div class="middle">
+			<div class="bar-container">
+			  <div style="width: {% percent star2 crating %}%; height: 18px; background-color: #ff9800;"></div>
+			</div>
+		  </div>
+		  <div class="side right">
+			<div>{{ star2 }}</div>
+		  </div>
+		  <div class="side">
+			<div>1 star</div>
+		  </div>
+		  <div class="middle">
+			<div class="bar-container">
+			  <div style="width: {% percent star1 crating %}%; height: 18px; background-color: #f44336;"></div>
+			</div>
+		  </div>
+		  <div class="side right">
+			<div>{{ star1 }}</div>
+		  </div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<h3 id="userreviews">User Reviews</h3>
+			</div>
+			<div class="col-md-6 text-right">
+				<button type="button" name="sort" class="dropdown-toggle btn btn-link" data-toggle="dropdown">Sort By</button>
+				<ul class="dropdown-menu">
+					<center>
+						<form>
+							<li><a href="#">Top Reviews</a></li>
+							<li><a href="#">Newest</a></li>
+						</form>
+						
+					</center>
+				</ul>
+			</div>
+			<br>
+			<div class="col-md-12">
+				{% for x in rview %}
+				<hr>
+				<div class="clearfix">
+					<b style="color: #cc7676;">{{ x.user_id|uname }}</b><br>
+					<input type="hidden" name="rating" value="{{ x.rating }}">
+					{% for i in x.rating|times %}
+						<span class="fa fa-star checked"></span>
+					{% endfor %}
+					{% minus '5' x.rating as nstar %}
+					{% for i in nstar|times %}
+						<span class="fa fa-star"></span>
+					{% endfor %}
+					&nbsp<span style="color: #A9A9A9;">{{ x.posted_at|date:"M d, Y h:i A" }}</span><br>
+					<i><p>{{ x.review }}</p></i>
+				</div>
+				{% endfor %}
+			</div>
+			
+		</div>
+
+	
+
+		<script>
+
+			var mfraction = "";//mixed fraction 
+			var ingstr = "";//ingredient string
+			var numstr = "";//number extracted from ingredient string
+			var out = "";//output for ingredient
+			var boolus = true;//if converted to us
+			var boolmetric = false;//if converted to metric
+			var sliced = new Array();//sliced array
+			var regexnum = /\d+/;
+			var serv = "{{ serv|safe }}"; 
+			serv = parseFloat(serv);
+			var slide = serv;//slider default value
+			var sstr = "";//serve string
+			var fsn = "";//fraction serve number
+
+
+			
+
+			//US Customary Convertion
+			function us(){
+				var str = {{ ingr|safe }}; 
+				document.getElementById("peeps").innerHTML = serv;
+				var temp = new Array();
+				temp = str;
+				var tlen = temp.length;
+				for(i=0; i<tlen; i++){
+					temp[i] = "<li>"+temp[i]+"</li>";
+				}
+
+				sliced = temp;
+				sliced = sliced.join(" ");
+				document.getElementById("ulingr").innerHTML = "US Customary<ul style='list-style-type:square;'>"+sliced+"</ul>";
+				boolus = true;
+				boolmetric = false;
+				temperature();
+			}
+
+			//Metric Convertion
+			function metric(){
+				document.getElementById("peeps").innerHTML = serv;
+				var str = {{ ingr|safe }};
+				var temp = new Array();
+				temp = str;
+				var tlen = temp.length;
+					
+				for(var i=0; i<tlen; i++){
+
+					ingstr = temp[i];
+					var ounces = temp[i].includes("ounces");
+					var ounce = temp[i].includes("ounce");
+					var oz = temp[i].includes("oz");//wrong output at e.g. 1 2 oz
+					var pounds = temp[i].includes("pounds");
+					var pound = temp[i].includes("pound");
+					var lbs = temp[i].includes("lbs");
+					var lb = temp[i].includes("lb");
+					var tablespoons = temp[i].includes("tablespoons");
+					var tablespoon = temp[i].includes("tablespoon");
+					var teaspoons = temp[i].includes("teaspoons");
+					var teaspoon = temp[i].includes("teaspoon");
+					var cups = temp[i].includes("cups");
+					var cup = temp[i].includes("cup");
+					//var inch = temp[i].includes("inch");
+						
+					extractN();
+
+					//convert ounces
+					if (ounces==true) {
+						var num = out;
+						var gram = num*28.35;
+						var str = temp[i];
+						if(gram>1000){
+							gram = gram/1000;
+							gram = gram.toFixed(2);
+							str = str.replace("ounces", "(kg)kilogram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						else{
+							gram = gram.toFixed(2);
+							str = str.replace("ounces", "(g)gram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert ounce
+					else if (ounce==true) {
+						var num = out;
+						var gram = num*28.35;
+						var str = temp[i];
+						if(gram>1000){
+							gram = gram/1000;
+							gram = gram.toFixed(2);
+							str = str.replace("ounce", "(kg)kilogram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						else{
+							gram = gram.toFixed(2);
+							str = str.replace("ounce", "(g)gram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert oz
+					else if (oz==true) {
+						var num = out;
+						var gram = num*28.35;
+						var str = temp[i];
+						if(gram>1000){
+							gram = gram/1000;
+							gram = gram.toFixed(2);
+							str = str.replace("oz", "(kg)kilogram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						else{
+							gram = gram.toFixed(2);
+							str = str.replace("oz", "(g)gram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert pounds
+					else if (pounds==true) {
+						var num = out;
+						var gram = num*453.592;
+						var str = temp[i];
+						if(gram>1000){
+							gram = gram/1000;
+							gram = gram.toFixed(2);
+							str = str.replace("pounds", "(kg)kilogram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						else{
+							gram = gram.toFixed(2);
+							str = str.replace("pounds", "(g)gram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert pound
+					else if (pound==true) {
+						var num = out;
+						var gram = num*453.592;
+						var str = temp[i];
+						if(gram>1000){
+							gram = gram/1000;
+							gram = gram.toFixed(2);
+							str = str.replace("pound", "(kg)kilogram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						else{
+							gram = gram.toFixed(2);
+							str = str.replace("pound", "(g)gram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert lbs
+					else if (lbs==true) {
+						var num = out;
+						var gram = num*453.592;
+						var str = temp[i];
+						if(gram>1000){
+							gram = gram/1000;
+							gram = gram.toFixed(2);
+							str = str.replace("lbs", "(kg)kilogram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						else{
+							gram = gram.toFixed(2);
+							str = str.replace("lbs", "(g)gram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert lb
+					else if (lb==true) {
+						var num = out;
+						var gram = num*453.592;
+						var str = temp[i];
+						if(gram>1000){
+							gram = gram/1000;
+							gram = gram.toFixed(2);
+							str = str.replace("lb", "(kg)kilogram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						else{
+							gram = gram.toFixed(2);
+							str = str.replace("lb", "(g)gram/s");
+							str = str.replace(numstr, gram);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert tablespoons
+					else if (tablespoons==true) {
+						var num = out;
+						var liter = num*14.787;
+						var str = temp[i];
+						if(liter>1000){
+							liter = liter/1000;
+							liter = liter.toFixed(2);
+							str = str.replace("tablespoons", "(L)liter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						else{
+							liter = liter.toFixed(2);
+							str = str.replace("tablespoons", "(mL)mililiter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert tablespoon
+					else if (tablespoon==true) {
+						var num = out;
+						var liter = num*14.787;
+						var str = temp[i];
+						if(liter>1000){
+							liter = liter/1000;
+							liter = liter.toFixed(2);
+							str = str.replace("tablespoon", "(L)liter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						else{
+							liter = liter.toFixed(2);
+							str = str.replace("tablespoon", "(mL)mililiter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert teaspoons
+					else if (teaspoons==true) {
+						var num = out;
+						var liter = num*4.929;
+						var str = temp[i];
+						if(liter>1000){
+							liter = liter/1000;
+							liter = liter.toFixed(2);
+							str = str.replace("teaspoons", "(L)liter/s");
+							str = str.replace(num, liter);
+							temp[i] = str;
+
+						}
+						else{
+							liter = liter.toFixed(2);
+							str = str.replace("teaspoons", "(mL)mililiter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert teaspoon
+					else if (teaspoon==true) {
+						var num = out;
+						var liter = num*4.929;
+						var str = temp[i];
+						if(liter>1000){
+							liter = liter/1000;
+							liter = liter.toFixed(2);
+							str = str.replace("teaspoon", "(L)liter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						else{
+							liter = liter.toFixed(2);
+							str = str.replace("teaspoon", "(mL)mililiter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert cups
+					else if (cups==true) {
+						var num = out;
+						var liter = num*236.588;
+						var str = temp[i];
+						if(liter>1000){
+							liter = liter/1000;
+							liter = liter.toFixed(2);
+							str = str.replace("cups", "(L)liter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						else{
+							liter = liter.toFixed(2);
+							str = str.replace("cups", "(mL)mililiter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						
+					}
+					//convert cup
+					else if (cup==true) {
+						var num = out;
+						var liter = num*236.588;
+						var str = temp[i];
+						if(liter>1000){
+							liter = liter/1000;
+							liter = liter.toFixed(2);
+							str = str.replace("cup", "(L)liter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						else{
+							liter = liter.toFixed(2);
+							str = str.replace("cup", "(mL)mililiter/s");
+							str = str.replace(numstr, liter);
+							temp[i] = str;
+
+						}
+						
+					}
+					
+					temp[i] = "<li>"+temp[i]+"</li>";
+
+				} //for loop
+
+				sliced = temp
+				sliced = sliced.join(" ");
+				document.getElementById("ulingr").innerHTML = "Metric<ul style='list-style-type:square;'>"+sliced+"</ul>";
+				boolmetric = true;
+				boolus = false;
+
+				temperature();
+			}
+
+			//Extract Numbers
+			function extractN(){
+
+				var regex = /(\d+\s)?\d+\/\d+/;//mixed fraction regular expression
+				mfraction = regex.exec(ingstr);//checking for mixed fraction
+
+				//if it's a fraction
+				if(mfraction!=null){
+					mfraction = mfraction[0];
+					var regnumbers = /\d+/g;
+					var numbers = mfraction.match(regnumbers);
+					var numlen = numbers.length;
+					//fraction
+					if (numlen==2){
+						var whole = 0;
+						whole = parseFloat(whole);
+						var numerator = numbers[0];
+						numerator = parseFloat(numerator);
+						var denominator = numbers[1];
+						denominator = parseFloat(denominator);
+						var fraction = numerator+"/"+denominator;
+						fraction = eval(fraction);
+						numstr = mfraction;
+						out = whole+fraction;
+						var val = eval(slide/serv);
+						out = out*val;
+						out = parseFloat(out);
+						
+						
+					}
+					//mixed fraction
+					else{
+						var whole = numbers[0];
+						whole = parseFloat(whole);
+						var numerator = numbers[1];
+						numerator = parseFloat(numerator);
+						var denominator = numbers[2];
+						denominator = parseFloat(denominator);
+						var fraction = numerator+"/"+denominator;
+						fraction = eval(fraction);
+						numstr = mfraction;
+						out = whole+fraction;
+						out = parseFloat(out);
+						
+					}
+
+				}
+				//if not fraction
+				else{
+					var regf = /\d+(\.\d+)?/;
+					numstr = regf.exec(ingstr);
+					if (numstr!=null) {
+						out = numstr[0];
+						numstr = numstr[0];
+					}
+					else{
+
+						numstr = null;
+						out = 0;
+					}
+					
+
+				}
+
+
+			}
+
+			//Calculate Servings
+			function calserv(){
+
+				slide = document.getElementById("snum").value;
+				slide = parseFloat(slide);
+				var peps = document.getElementById("snum").value;
+				document.getElementById('person').value = peps;
+
+				if (slide != null && slide > 0 && isNaN(slide) == false) {
+
+					var den = eval(slide/serv);
+					//den = parseFloat(den);
+
+
+
+					if (boolus == true && boolmetric == false) {
+
+						us();
+
+						var stemp = new Array();
+						stemp = sliced.split('</li>');
+						var slen = stemp.length;
+
+
+
+						for (var i = 0; i!=slen; i++) {
+
+							ingstr = stemp[i];
+							var pound = stemp[i].toLowerCase().includes("pound");
+							var lb = stemp[i].toLowerCase().includes("lb");
+							var ounce = stemp[i].toLowerCase().includes("ounce");
+							var oz = stemp[i].toLowerCase().includes("oz");
+							extractN();
+
+							servnum = out*den;
+							servnum = servnum.toFixed(2);
+
+							if(pound == false && lb == false && ounce == false && oz == false) {
+
+								dec2frac();
+									
+							}
+
+							sstr = stemp[i];
+							sstr = sstr.replace(numstr, servnum);
+							stemp[i] = sstr;
+							stemp[i] = stemp[i]+"</li>";
+
+						}
+
+
+						stemp = stemp.join(" ");
+						document.getElementById("ulingr").innerHTML = "US Customary<ul style='list-style-type:square;'>"+stemp+"</ul>";
+						boolmetric = false;
+						boolus = true;
+
+
+					}
+					else{
+
+						if (boolus == true) {
+
+							us();
+							var stemp = new Array();
+							stemp = sliced.split('</li>');
+							var slen = stemp.length;
+
+							
+							for(var i = 0; i!=slen; i++) {
+
+								ingstr = stemp[i];
+
+								var pound = stemp[i].toLowerCase().includes("pound");
+								var lb = stemp[i].toLowerCase().includes("lb");
+								var ounce = stemp[i].toLowerCase().includes("ounce");
+								var oz = stemp[i].toLowerCase().includes("oz");
+
+
+								extractN();
+
+								servnum = out*den;
+								servnum = servnum.toFixed(2);
+								if(pound == false && lb == false && ounce == false && oz == false) {
+
+									dec2frac();
+									
+								}
+								
+								sstr = stemp[i];
+								sstr = sstr.replace(numstr, servnum);
+								stemp[i] = sstr;
+								stemp[i] = stemp[i]+"</li>";
+
+							}
+
+
+							stemp = stemp.join(" ");
+							document.getElementById("ulingr").innerHTML = "US Customary<ul style='list-style-type:square;'>"+stemp+"</ul>";
+							boolmetric = false;
+							boolus = true;
+
+						}
+						else{
+
+							metric();
+							var stemp = new Array();
+							stemp = sliced.split('</li>');
+							var slen = stemp.length;
+							
+
+							for(var i = 0; i<slen; i++) {
+
+								ingstr = stemp[i];
+								var mililiter = stemp[i].toLowerCase().includes("(ml)mililiter/s");
+								var liter = stemp[i].toLowerCase().includes("(l)liter/s");
+								var kilogram = stemp[i].toLowerCase().includes("(kg)kilogram/s");
+								var gram = stemp[i].toLowerCase().includes("(g)gram/s");
+
+								extractN();
+
+								servnum = out*den;
+								servnum = servnum.toFixed(2);
+								if (mililiter == true) {
+									if (servnum>=1000) {
+										servnum = servnum/1000;
+										servnum = servnum.toFixed(2);
+										sstr = stemp[i];
+										sstr = sstr.replace('(mL)mililiter/s', '(L)liter/s');
+
+									}
+									else{
+										sstr = stemp[i];
+									}
+									
+									sstr = sstr.replace(numstr, servnum);
+
+								}
+								else if(liter == true){
+
+									sstr = stemp[i];
+									sstr = sstr.replace(numstr, servnum);
+								}
+								else if(kilogram == true){
+
+									sstr = stemp[i];
+									sstr = sstr.replace(numstr, servnum);
+
+								}
+								else if (gram == true) {
+
+									if (servnum>=1000) {
+										servnum = servnum/1000;
+										servnum = servnum.toFixed(2);
+										sstr = stemp[i];
+										sstr = sstr.replace('(g)gram/s', '(kg)kilogram/s');
+
+									}
+									else{
+										sstr = stemp[i];
+									}
+									
+									sstr = sstr.replace(numstr, servnum);
+
+								}
+								else{
+									dec2frac();
+									sstr = stemp[i];
+									sstr = sstr.replace(numstr, servnum);
+								}
+
+								//console.log('str'+numstr);
+								//console.log('out'+out);
+								//console.log('den'+den);
+								//console.log('serv'+servnum);
+								stemp[i] = sstr;
+								stemp[i] = stemp[i]+"</li>";
+							}
+
+							stemp = stemp.join(" ");
+							document.getElementById("ulingr").innerHTML = "Metric<ul style='list-style-type:square;'>"+stemp+"</ul>";
+							boolmetric = true;
+							boolus = false;
+
+						}
+					}
+
+
+					document.getElementById("peeps").innerHTML = peps;
+
+				}
+				else if(slide <= 0){
+
+					Swal.fire({
+					  type: 'error',
+					  title: 'Invalid Input',
+					  text: 'Please input number greater than 0'
+					})
+
+				}
+				else {
+
+					Swal.fire({
+					  type: 'error',
+					  title: 'Invalid Input',
+					  text: 'Please input number to Calculate Servings'
+					})
+
+				}
+
+			}
+
+			function dec2frac(){
+
+				var str = servnum;
+				//var regwhole = /\d+\./g;
+				//var whole = str.match(regwhole);
+				//var whole = parseInt(whole);
+				//var regdec = /\.\d+/g;
+				//var dec = str.match(regdec);
+				var dec = str;
+				dec = parseFloat(dec);
+				if(dec == 0){
+					servnum = "1/100";
+				}
+				else{
+					//numerator given decimal value denominator 1
+					dec = dec.toFixed(2);
+					//multiply both by 100
+					var den = 100;
+					var num = dec*100;
+					num = parseInt(num);
+					var arrnum = [];
+					var arrden = [];
+					var i = num;
+					var j = den;
+					//get gcf/gcd
+					var arrgcd = [];
+					do{
+						var mod = num%i;
+						if (mod == 0) {
+							arrnum.push(i);
+							i = i-1;
+						}
+						else{
+							i = i-1;
+						}
+					
+					}
+					while(i!==0);
+
+					do{
+						var mod = den%j;
+						if (mod == 0) {
+							arrden.push(j);
+							j = j-1;
+						}
+						else{
+							j = j-1;
+						}
+					}
+					while(j!==0);
+
+					var denlen = arrden.length;
+					var numlen = arrnum.length;
+					i = 0;
+					j = 0;
+					do{
+						do{
+							var temp1 = arrden[j];
+							var temp2 = arrnum[i];
+							if (temp1==temp2) {
+								arrgcd.push(temp2);
+								i = i+1;
+							}
+							else{
+								i = i+1;
+							}
+
+						}
+						while(i!==numlen);
+						j = j+1;
+						i = 0;
+					}
+					while (j!==denlen);
+					//divide both by their GCD/GCF
+					var gcd = parseInt(arrgcd[0]);
+					var whole = num/den;
+					whole = parseInt(whole);
+					num = num/gcd;
+					den = den/gcd;
+					num = num%den;
+					var frac = "";
+					frac = num+"/"+den;
+					if (num==0 && den==1) {
+						servnum = whole;
+					}
+					else{
+						if(whole==0){
+						servnum = frac;
+						}
+						else{
+							servnum = whole+" "+frac;
+						}
+					}
+				}
+				
+			}
+		
+			function temperature(){
+			//var regtemperature = /\d+°?[CcFf][^°]/g;
+				var regcel = /\d+°?(C|c)[^°]/g; //num+celsius regex
+				var regfah = /\d+°?(F|f)[^°]/g; //num+fahrenheit regex
+				var fahs = /°?(F|f)[^°]/g; //fahrenheit sign
+				var cels = /°?(C|c)[^°]/g; //celsius sign
+
+				var str = {{ inst|safe }};
+				
+
+				var temp = new Array();
+				temp = str;
+				var tlen = temp.length;
+
+				for(var i=0; i<tlen; i++){
+
+					var insstr = temp[i];
+					//console.log(insstr);
+					if (boolmetric==true){
+
+						var degrees = regfah.exec(insstr);
+
+						if (degrees!=null){
+							var curr = temp[i];
+							var num = parseFloat(degrees);
+							//console.log(num);
+							var newnum = (num-32)*5/9;
+							newnum = newnum.toFixed(2);
+							//console.log(newnum);
+							var degf = temp[i].includes("°f");
+							var degF = temp[i].includes("°F");
+							var f = temp[i].includes("f");
+							var F = temp[i].includes("F");
+
+							if (degf==true) {
+
+								var curr = curr.replace('°f', '°c');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+							else if(degF==true){
+
+								var curr = curr.replace('°F', '°C');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+							else if(f==true){
+
+								var curr = curr.replace('f', 'c');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+							else if(F==true){
+
+								var curr = curr.replace('F', 'C');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+
+
+						}
+						else{
+
+							temp[i] = "<li>"+insstr+"</li>";
+
+						}
+					}
+
+					else{
+
+						var degrees = regcel.exec(insstr);
+
+						if (degrees!=null){
+							var curr = temp[i];
+							var num = parseFloat(degrees);
+							//console.log(num);
+							var newnum = (num*9/5)+32;
+							newnum = newnum.toFixed(2);
+							//console.log(newnum);
+							var degc = temp[i].includes("°c");
+							var degC = temp[i].includes("°C");
+							var c = temp[i].includes("c");
+							var C = temp[i].includes("C");
+
+
+							if (degc==true) {
+
+								var curr = curr.replace('°c', '°f');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+							else if(degC==true){
+
+								var curr = curr.replace('°C', '°F');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+							else if(c==true){
+
+								var curr = curr.replace('c', 'f');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+							else if(C==true){
+
+								var curr = curr.replace('C', 'F');
+								var curr = curr.replace(num, newnum);
+
+								temp[i] = "<li>"+curr+"</li>";
+
+							}
+
+
+						}
+						else{
+
+							temp[i] = "<li>"+insstr+"</li>";
+
+						}
+
+					}
+
+					
+
+				}
+				var sliced = temp.join(" ");
+				//temp = temp.join(" ");
+				document.getElementById("olins").innerHTML = "<ol>"+sliced+"</ol>";
+
+			}
+
+			function cooks(){
+
+				{% if request.user.is_authenticated %}
+
+				var frm = "frmcook";
+				var nserv = document.getElementById("snum").value;
+				nserv = parseInt(nserv);
+
+				
+
+				
+				if (isNaN(nserv) == false) {
+
+					if (nserv > 0){
+
+						document.getElementById(frm).submit();
+					}
+					else{
+
+						Swal.fire({
+							 type: 'error',
+							 title: 'Invalid Input',
+							 text: 'Please enter a number greater than 0',
+						})
+
+					}
+
+				}
+				else{
+
+					Swal.fire({
+						 type: 'error',
+						 title: 'Invalid Input',
+						 text: 'Please enter a number',
+					})
+
+				}
+
+
+				{% else %}
+				Swal.fire({
+					 type: 'info',
+					 title: 'Login Required',
+					 text: 'Please login to get access',
+				})
+				{% endif %}
+
+
+			}
+
+
+			function ratings(){
+
+				var frm = "frmrate";
+
+				{% if request.user.is_authenticated %}
+
+				var radio = document.getElementsByName("star");
+				var rating = 0;
+
+				for (var i = 0, len = radio.length; i < len; i++) {
+					if (radio[i].checked){
+						rating = radio[i].value;
+						break;
+					}
+
+				}
+
+				if (rating == 0){
+
+					Swal.fire({
+						 type: 'error',
+						 title: 'No Rating',
+						 text: 'Please rate by selecting the stars',
+					})
+
+				}
+				else{
+
+					var txt = document.getElementById('id_review').value;
+					txt = txt.trim();
+
+					if (txt == ""){
+						Swal.fire({
+							 type: 'error',
+							 title: 'No Review',
+							 text: 'Please enter a review',
+						})
+
+					}
+					else{
+						document.getElementById(frm).submit();
+					}
+					
+				}
+
+				
+
+				{% else %}
+
+				Swal.fire({
+					 type: 'info',
+					 title: 'Login Required',
+					 text: 'Please login to get access',
+				})
+
+				{% endif %}
+
+			}
+
+		
+		</script>
+{% endblock content %}

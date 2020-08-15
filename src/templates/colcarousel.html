@@ -1,0 +1,240 @@
+{% load custom_filter_tags %}
+
+<div class="row mb-2">
+
+	{% if request.user.is_authenticated %}
+
+		<!-- Similar Recipe -->
+
+		<div class="col-md-4">
+			{% slist request.user as simlist %}
+
+			{% if simlist|length == 0 %}
+				<div class="row card bg-light text-white" style="background-color: white">
+					<center><h3 style="color: black;">No Similar Recipes</h3></center>
+				</div>
+			{% else %}
+				<div class="row card bg-light text-white">
+					<div id="reccar" class="carousel slide" data-ride="carousel">
+						<ul class="carousel-indicators">
+						{% lenlist simlist as smlen %}
+						{% for i in smlen|times %}
+							{% if forloop.first %}
+
+								<li data-target="#reccar" data-slide-to="0" class="active"></li>
+
+							{% else %}
+
+								<li data-target="#reccar" data-slide-to="{{ i }}"></li>
+
+							{% endif %}
+
+						{% endfor %}
+						</ul>
+
+						<div class="carousel-inner">
+						{% for sm in simlist %}
+
+							{% if forloop.first %}
+
+								<div class="carousel-item active">
+									<a href="{{ sm.get_absolute_url }}" target="_blank">
+									<img src="{{ sm.Thumbnail }}" alt="{{ sm.Recipe }}" class="img-responsive">
+									<div class="card-img-overlay carousel-caption">
+										<h5 class="card-title" style="background-color: rgba(0, 0, 0, 0.3); color: white;"><b>Similar Recipes</b></h5>
+										<p class="card-text" style="background-color: rgba(0, 0, 0, 0.3); color: white;">{{ sm.Recipe }}</p>
+										<br>
+									</div>
+								</div>
+
+							{% else %}
+
+								<div class="carousel-item">
+									<a href="{{ sm.get_absolute_url }}" target="_blank">
+									<img src="{{ sm.Thumbnail }}" alt="{{ sm.Recipe }}" class="img-responsive">
+									<div class="card-img-overlay carousel-caption">
+										<h5 class="card-title" style="background-color: rgba(0, 0, 0, 0.3); color: white;"><b>Similar Recipes</b></h5>
+										<p class="card-text" style="background-color: rgba(0, 0, 0, 0.3); color: white;">{{ sm.Recipe }}</p>
+										<br>
+									</div>
+								</div>
+
+							{% endif %}
+						
+						{% endfor %}
+						</div> <!-- carousel-inner !-->
+
+						<a class="carousel-control-prev" href="#reccar" data-slide="prev">
+                    		<span class="carousel-control-prev-icon"></span>
+                  		</a>
+                  		<a class="carousel-control-next" href="#reccar" data-slide="next">
+                    		<span class="carousel-control-next-icon"></span>
+                  		</a>
+
+                  	</div> <!-- carousel slide-->
+
+				</div> <!-- row card-->
+
+			{% endif %}
+
+		</div> <!-- col-md-4 !-->
+
+
+
+		<!-- Top Rated -->
+
+	    <div class="col-md-4">
+			{% trlist request.user as toplist %}
+
+			{% if toplist|length == 0 %}
+				<div class="row card bg-light text-white" style="background-color: white">
+					<center><h3 style="color: black;">No Top Rated</h3></center>
+				</div>
+			{% else %}
+				<div class="row card bg-light text-white">
+					<div id="tracar" class="carousel slide" data-ride="carousel">
+						<ul class="carousel-indicators">
+						{% lenlist toplist as tplen %}
+						{% for i in tplen|times %}
+							{% if forloop.first %}
+
+								<li data-target="#tracar" data-slide-to="0" class="active"></li>
+
+							{% else %}
+
+								<li data-target="#tracar" data-slide-to="{{ i }}"></li>
+
+							{% endif %}
+
+						{% endfor %}
+						</ul>
+
+						<div class="carousel-inner">
+						{% for tp in toplist %}
+
+							{% if forloop.first %}
+
+								<div class="carousel-item active">
+									<a href="{{ tp.get_absolute_url }}" target="_blank">
+									<img src="{{ tp.Thumbnail }}" alt="{{ tp.Recipe }}" class="img-responsive">
+									<div class="card-img-overlay carousel-caption">
+										<h5 class="card-title" style="background-color: rgba(0, 0, 0, 0.3); color: white;"><b>Top Rated</b></h5>
+										<p class="card-text" style="background-color: rgba(0, 0, 0, 0.3); color: white;">{{ tp.Recipe }}</p>
+										<br>
+									</div>
+								</div>
+
+							{% else %}
+
+								<div class="carousel-item">
+									<a href="{{ tp.get_absolute_url }}" target="_blank">
+									<img src="{{ tp.Thumbnail }}" alt="{{ tp.Recipe }}" class="img-responsive">
+									<div class="card-img-overlay carousel-caption">
+										<h5 class="card-title" style="background-color: rgba(0, 0, 0, 0.3); color: white;"><b>Top Rated</b></h5>
+										<p class="card-text" style="background-color: rgba(0, 0, 0, 0.3); color: white;">{{ tp.Recipe }}</p>
+										<br>
+									</div>
+								</div>
+
+							{% endif %}
+						
+						{% endfor %}
+						</div> <!-- carousel-inner !-->
+
+						<a class="carousel-control-prev" href="#tracar" data-slide="prev">
+                    		<span class="carousel-control-prev-icon"></span>
+                  		</a>
+                  		<a class="carousel-control-next" href="#tracar" data-slide="next">
+                    		<span class="carousel-control-next-icon"></span>
+                  		</a>
+
+                  	</div> <!-- carousel slide-->
+
+				</div> <!-- row card-->
+
+			{% endif %}
+
+		</div> <!-- col-md-4 !-->
+
+
+		<!-- Most Views -->
+
+		<div class="col-md-4">
+			{% mvlist request.user as most %}
+
+			{% if most|length == 0 %}
+				<div class="row card bg-light text-white" style="background-color: white">
+					<center><h3 style="color: black;">No Most View Recipes</h3></center>
+				</div>
+			{% else %}
+				<div class="row card bg-light text-white">
+					<div id="mvcar" class="carousel slide" data-ride="carousel">
+						<ul class="carousel-indicators">
+						{% lenlist most as mvlen %}
+						{% for i in mvlen|times %}
+							{% if forloop.first %}
+
+								<li data-target="#mvcar" data-slide-to="0" class="active"></li>
+
+							{% else %}
+
+								<li data-target="#mvcar" data-slide-to="{{ i }}"></li>
+
+							{% endif %}
+
+						{% endfor %}
+						</ul>
+
+						<div class="carousel-inner">
+						{% for mv in most %}
+
+							{% if forloop.first %}
+
+								<div class="carousel-item active">
+									<a href="{{ mv.get_absolute_url }}" target="_blank">
+									<img src="{{ mv.Thumbnail }}" alt="{{ mv.Recipe }}" class="img-responsive">
+									<div class="card-img-overlay carousel-caption">
+										<h5 class="card-title" style="background-color: rgba(0, 0, 0, 0.3); color: white;"><b>Most Viewed</b></h5>
+										<p class="card-text" style="background-color: rgba(0, 0, 0, 0.3); color: white;">{{ mv.Recipe }}</p>
+										<br>
+									</div>
+								</div>
+
+							{% else %}
+
+								<div class="carousel-item">
+									<a href="{{ mv.get_absolute_url }}" target="_blank">
+									<img src="{{ mv.Thumbnail }}" alt="{{ mv.Recipe }}" class="img-responsive">
+									<div class="card-img-overlay carousel-caption">
+										<h5 class="card-title" style="background-color: rgba(0, 0, 0, 0.3); color: white;"><b>Most Viewed</b></h5>
+										<p class="card-text" style="background-color: rgba(0, 0, 0, 0.3); color: white;">{{ mv.Recipe }}</p>
+										<br>
+									</div>
+								</div>
+
+							{% endif %}
+						
+						{% endfor %}
+						</div> <!-- carousel-inner !-->
+
+						<a class="carousel-control-prev" href="#mvcar" data-slide="prev">
+                    		<span class="carousel-control-prev-icon"></span>
+                  		</a>
+                  		<a class="carousel-control-next" href="#mvcar" data-slide="next">
+                    		<span class="carousel-control-next-icon"></span>
+                  		</a>
+
+                  	</div> <!-- carousel slide-->
+
+				</div> <!-- row card-->
+
+			{% endif %}
+
+		</div> <!-- col-md-4 !-->
+
+	    
+
+	
+
+	{% endif %}
+

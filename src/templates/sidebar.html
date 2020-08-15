@@ -1,0 +1,99 @@
+	{% load custom_filter_tags %}
+	<br>
+	
+	{% if request.user.is_authenticated %}
+
+		{% nlist request.user as new %}
+		{% if new|length == 0 %}
+
+			<div>
+				<h3>Nothing to Try Something New</h3>
+			</div>
+
+		{% else %}
+
+			<div id="tsn" class="carousel slide" data-interval="10000" data-ride="carousel">
+
+				<div class="carousel-inner">
+				{% for n in new %}
+					{% if forloop.first %}
+
+						<div class="carousel-item active">
+							<a href="{{ n.get_absolute_url }}" target="_blank">
+							<img src="{{ n.Thumbnail }}" alt="{{ n.Recipe }}" class="img-thumbnail">
+							<div class="carousel-caption">
+								<h6 style="background-color: rgba(0,0,0,.5);"><b>Try Something New</b></h6>
+								<p style="background-color: rgba(0,0,0,.5); font-size: 12px;">{{ n.Recipe }}</p>
+							</div>   
+						</div>
+
+					{% else %}
+						<div class="carousel-item">
+							<a href="{{ n.get_absolute_url }}" target="_blank">
+							<img src="{{ n.Thumbnail }}" alt="{{ n.Recipe }}" class="img-thumbnail">
+							<div class="carousel-caption">
+								<h6 style="background-color: rgba(0,0,0,.5);"><b>Try Something New</b></h6>
+								<p style="background-color: rgba(0,0,0,.5); font-size: 12px;">{{ n.Recipe }}</p>
+							</div>   
+						</div>
+					{% endif %}
+
+				{% endfor %}
+				</div>
+
+
+				<a class="carousel-control-prev" href="#tsn" data-slide="prev">
+		          <span class="carousel-control-prev-icon"></span>
+		        </a>
+		        <a class="carousel-control-next" href="#tsn" data-slide="next">
+		          <span class="carousel-control-next-icon"></span>
+		        </a>
+
+			</div>
+
+		{% endif %}
+
+	{% endif %}
+	
+	<!-- Resitrictions -->
+	{% if request.user.is_authenticated %}
+	<div class="p-2">
+		<h5 class="font-italic">Restricted Ingredients</h5>
+		<ol class="list-unstyled">
+			{% rlist request.user as resingr %}
+			{% if resingr|length > 5 %}
+				{% for ex in resingr|slice:":5" %}
+					<li><i style="color: #FF9595; font-style: normal;">{{ ex.ingr }}</i></li>
+				{% endfor %}
+				<li><a href="/restriction">...</a></li>
+			{% elif resingr|length == 0 %}
+				<li><i style="color: #FF9595; font-style: normal;">No Restricted Ingredient</i>
+			{% else %}
+				{% for ex in resingr %}
+					<li><i style="color: #FF9595; font-style: normal;">{{ ex.ingr }}</i></li>
+				{% endfor %}
+			{% endif %}
+			<li><a href="/restriction">Click to Edit</a></li>
+		</ol>
+	</div>
+
+	{% endif %}
+	
+
+	<div class="p-2">
+		<h5 class="font-italic">Categories</h5>
+		<ol class="list-unstyled mb-0">
+			<li><a href="/beef">Beef</a></li>
+			<li><a href="/dessert">Dessert</a></li>
+			<li><a href="/fish">Fish</a></li>
+			<li><a href="/noodle">Noodle</a></li>
+			<li><a href="/pork">Pork</a></li>
+			<li><a href="/poultry">Poultry</a></li>
+			<li><a href="/rice">Rice</a></li>
+			<li><a href="/seafood">Seafood</a></li>
+		<li><a href="/vegetable">Vegetable</a></li>
+		</ol>
+	</div>
+	
+
+		
