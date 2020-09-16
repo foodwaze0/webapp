@@ -28,6 +28,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+if DEBUG:
+    # console
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    # Mailtrap.io
+    '''
+    EMAIL_HOST = 'smtp.mailtrap.io'
+    EMAIL_HOST_USER = 'e2cec93a158d57'
+    EMAIL_HOST_PASSWORD = '25df7aa0a1a57f'
+    EMAIL_PORT = '2525'
+    '''
+
 
 # Application definition
 
@@ -79,12 +90,15 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# default
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+# mySQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -145,3 +159,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
 )
+

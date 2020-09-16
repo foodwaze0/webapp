@@ -1209,7 +1209,7 @@ def ManageView(request, *args, **kwargs):
 				# print(r.id)
 				ting = r.Ingredients
 				ingr = ting.split("@")
-				arrunit = ["pouches", "pouch", "cloves", "clove", "stalk(s)", "stalks", "stalk", "tablespoons", "tablespoon", "teaspoons", "teaspoon", "tbsps.", "tbsps", "tbsp.", "tbsp", "tsps.", "tsp.", "tsps", "tsp", "cup(s)", "cups", "cup", "bunches", "bunch", "packs", "package", "pack", "big bottle", "bottle", "pounds", "pound", "lbs.", "lbs", "lb.", "lb", "ounce(s)", "ounces", "ounce", "can(s)", "cans", "can", "ozs.", "ozs", "oz.", "oz", "piece(s)", "pieces", "piece", "pcs.", "pcs", "pc.", "mililiters", "mililiter", "liters", "liter", "kilograms", "kilogram", "grams", "gram", "quarts", "quart", "whole", "head"]
+				arrunit = ["pouches", "pouch", "cloves", "clove", "stalk(s)", "stalks", "stalk", "tablespoons", "tablespoon", "teaspoons", "teaspoon", "tbsps.", "tbsps", "tbsp.", "tbsp", "tsps.", "tsp.", "tsps", "tsp", "cup(s)", "cups", "cup", "bunches", "bunch", "packs", "package", "pack", "big bottle", "bottle", "pounds", "pound", "lbs.", "lbs", "lb.", "lb", "ounce(s)", "ounces", "ounce", "can(s)", "cans", "can", "ozs.", "ozs", "oz.", "oz", "piece(s)", "pieces", "piece", "pcs.", "pcs", "pc.", "mililiters", "mililiter", "liters", "liter", "kilograms", "kilogram", "kilo", "grams", "gram", "quarts", "quart", "whole", "head"]
 
 				for key, ing in enumerate(ingr):
 					# ingr[key] = 'new value'
@@ -1219,16 +1219,21 @@ def ManageView(request, *args, **kwargs):
 					ext = ''
 					curr = ing.lstrip()
 
+					# remove? to avoid "" names
 					if "#" in curr:
-						text = re.split("\#", curr)
+						'''
+						text = re.split(r"\#", curr)
 						curr = text[0].lstrip()
 						ext = text[1].lstrip()
+						'''
+						curr = re.sub(r'\#', '', curr)
+					
 
-					check = re.search("^(\d+\s)?\d+\/\d+|^\d+(\.\d+)?", curr)
+					check = re.search(r"^(\d+\s)?\d+\/\d+|^\d+(\.\d+)?", curr)
 
 					if check:
 						quantity = check.group()
-						tcurr = re.split("^(\d+\s)?\d+\/\d+|^\d+(\.\d+)?", curr)
+						tcurr = re.split(r"^(\d+\s)?\d+\/\d+|^\d+(\.\d+)?", curr)
 						name = str(tcurr[3]).lstrip()
 						
 						for u in arrunit:
@@ -1655,6 +1660,15 @@ def ManageView(request, *args, **kwargs):
 			msgstr = "Execution Time: "+str(delta.seconds)+" seconds"
 
 			messages.success(request, msgstr)
+
+		elif 'trace' in request.POST:
+
+			ingrobj = Ingredient.objects.filter(name="")
+
+			for i in ingrobj:
+				msgstr = 'id'+str(i.id)+'|recipe_id'+str(i.recipe_id)
+				# print('id',i.id,'|recipe_id',i.recipe_id)
+				messages.error(request, msgstr)
 				
 
 	return render(request, "recipes/recipe_manage.html", context)

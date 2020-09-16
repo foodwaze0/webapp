@@ -176,6 +176,8 @@ def slist(username):
 
 	uid = uobj.id
 
+	'''
+
 	ratobj = Rating.objects.filter(user_id=uid)
 
 	# similar tags
@@ -192,6 +194,7 @@ def slist(username):
 			incl.append(recobj.tag)
 
 		ex2.append(recobj.id)
+	'''
 
 	# excluded ingredients
 	q1 = Q()
@@ -199,7 +202,8 @@ def slist(username):
 	for e in ex:
 		q1 |= Q(Ingredients__icontains = e)
 
-	out = Recipe.objects.exclude(q1).exclude(id__in=ex2).filter(tag__in=incl)
+	# out = Recipe.objects.exclude(q1).exclude(id__in=ex2).filter(tag__in=incl)
+	out = Recipe.objects.exclude(q1).order_by('-cook')
 
 	return out[:5]
 	

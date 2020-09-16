@@ -12,6 +12,7 @@ class CreateUserForm(UserCreationForm):
 					        		'class': 'form-control',
 					        		'name': 'username',
 					        		'placeholder': 'Username',
+					        		'autocomplete': 'off',
 					        	}
 					        )
 						)
@@ -21,6 +22,7 @@ class CreateUserForm(UserCreationForm):
 					        		'class': 'form-control',
 					        		'name': 'email',
 					        		'placeholder': 'Email',
+					        		'autocomplete': 'off',
 					        	}
 					        )
 				        )
