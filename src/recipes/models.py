@@ -6,14 +6,14 @@ from django.utils import timezone
 
 class Recipe(models.Model):
 	Recipe			= models.CharField(max_length=150)
-	Title_link		= models.SlugField(null=True, unique=True)
-	Thumbnail		= models.TextField(null=True)
-	Servings		= models.CharField(null=True, max_length=20)
 	Ingredients		= models.TextField(null=True)
 	Instructions	= models.TextField(null=True)
-	tag 			= models.TextField(null=True)
+	Servings		= models.CharField(null=True, max_length=20)
+	Thumbnail		= models.TextField(null=True)
+	Title_link		= models.SlugField(null=True, unique=True)
 	cook 			= models.BigIntegerField(null=True)
 	recipes_view	= models.BigIntegerField(null=True)
+	tag 			= models.TextField(null=True)
 
 	def get_absolute_url(self):
 		return reverse("recipes:recipe-detail", kwargs={"Title_link": self.Title_link})

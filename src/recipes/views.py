@@ -520,7 +520,7 @@ def BeefView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -559,7 +559,7 @@ def DessertView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -599,7 +599,7 @@ def FishView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -639,7 +639,7 @@ def NoodleView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -679,7 +679,7 @@ def PorkView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -719,7 +719,7 @@ def PoultryView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -759,7 +759,7 @@ def RiceView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -799,7 +799,7 @@ def SeafoodView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -839,7 +839,7 @@ def VegetableView(request, *args, **kwargs):
 
 	else:
 
-		recipeobj = Recipe.objects.filter(q).filter(tag__icontains = tag)
+		recipeobj = Recipe.objects.filter(tag__icontains = tag)
 
 	paginator = Paginator(recipeobj, 10)
 	page = request.GET.get('page')
@@ -1663,7 +1663,7 @@ def ManageView(request, *args, **kwargs):
 
 		elif 'trace' in request.POST:
 
-			ingrobj = Ingredient.objects.filter(name="")
+			ingrobj = Ingredient.objects.filter(name__regex=r'\?E')
 
 			for i in ingrobj:
 				msgstr = 'id'+str(i.id)+'|recipe_id'+str(i.recipe_id)
